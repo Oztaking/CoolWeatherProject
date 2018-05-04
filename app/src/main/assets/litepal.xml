@@ -1,0 +1,12 @@
+<litepal>
+    <!--DataBase name-->
+    <dbname value="cool_weather" />
+    <!--DataBase version-->
+    <version value="1" />
+    <!--DataBase maping list-->
+    <list>
+        <mapping class="www.wsxingjun.com.coolweather.db.Province" />
+        <mapping class="www.wsxingjun.com.coolweather.db.Country" />
+        <mapping class="www.wsxingjun.com.coolweather.db.City" />
+    </list>
+</litepal>
