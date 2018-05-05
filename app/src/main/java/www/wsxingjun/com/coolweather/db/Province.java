@@ -7,33 +7,33 @@ import org.litepal.crud.DataSupport;
  */
 
 public class Province extends DataSupport {
-    private int mId; //每个实体类中都有具有的子段
-    private String mName;  //省的名字
-    private int mProvinceCode; //省的代号
+    private int id; //每个实体类中都有具有的子段
+    private String provinceName;  //省的名字
+    private int provinceCode; //省的代号
 
 
     public int getId() {
-        return mId;
+        return id;
     }
 
     public void setId(int mId) {
-        this.mId = mId;
+        this.id = mId;
     }
 
-    public String getName() {
-        return mName;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setProvinceName(String mName) {
+        this.provinceName = mName;
     }
 
     public int getProvinceCode() {
-        return mProvinceCode;
+        return provinceCode;
     }
 
     public void setProvinceCode(int mProvinceCode) {
-        this.mProvinceCode = mProvinceCode;
+        this.provinceCode = mProvinceCode;
     }
 
 

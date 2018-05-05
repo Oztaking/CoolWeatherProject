@@ -6,7 +6,7 @@
     <!--DataBase maping list-->
     <list>
         <mapping class="www.wsxingjun.com.coolweather.db.Province" />
-        <mapping class="www.wsxingjun.com.coolweather.db.Country" />
+        <mapping class="www.wsxingjun.com.coolweather.db.County" />
         <mapping class="www.wsxingjun.com.coolweather.db.City" />
     </list>
 </litepal>
