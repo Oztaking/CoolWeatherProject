@@ -2,14 +2,16 @@ package www.wsxingjun.com.coolweather.Acitivity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -44,9 +46,11 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView tv_carWash;
     private TextView tv_sport;
     private ImageView imge_everyDayImage;
-    private SwipeRefreshLayout swiprefresh;
+    public SwipeRefreshLayout swiprefresh;
 
     private String mWeatherId;
+    private Button nav_button;
+    public DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,9 @@ public class WeatherActivity extends AppCompatActivity {
 
 //        initView();
         imge_everyDayImage = (ImageView) findViewById(R.id.imge_everyDayImage);
+
+        nav_button = (Button) findViewById(R.id.nav_button);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         scroll_weather = (ScrollView) findViewById(R.id.scroll_weather);
         tv_title_city = (TextView) findViewById(R.id.tv_title_city);
@@ -111,6 +118,13 @@ public class WeatherActivity extends AppCompatActivity {
         } else {
             loadBingPic();
         }
+
+        nav_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
 
@@ -119,7 +133,7 @@ public class WeatherActivity extends AppCompatActivity {
      *
      * @param weatherId
      */
-    private void requestWeather(String weatherId) {
+    public void requestWeather(String weatherId) {
 
         String weatherUrl = "http://guolin.tech/api/weather?cityid=" +
                 weatherId + "&key=738e39c4a2ab424bb45810777a275c17";

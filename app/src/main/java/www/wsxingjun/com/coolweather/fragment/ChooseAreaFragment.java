@@ -27,10 +27,12 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import www.wsxingjun.com.coolweather.Acitivity.WeatherActivity;
+import www.wsxingjun.com.coolweather.MainActivity;
 import www.wsxingjun.com.coolweather.R;
 import www.wsxingjun.com.coolweather.db.City;
 import www.wsxingjun.com.coolweather.db.County;
 import www.wsxingjun.com.coolweather.db.Province;
+import www.wsxingjun.com.coolweather.gson.Weather;
 import www.wsxingjun.com.coolweather.utils.HttpUtil;
 import www.wsxingjun.com.coolweather.utils.JsonParseUtil;
 
@@ -103,11 +105,21 @@ public class ChooseAreaFragment extends Fragment {
                     queryCountries();
                 }else if (currentLevel == LEVEL_COUNTRY){
                     String weatherId = countyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                    Log.d("onActivityCreated","************");
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity){
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        Log.d("onActivityCreated","************");
+                        intent.putExtra("weather_id",weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+
+                    }else if (getActivity() instanceof WeatherActivity){
+                        WeatherActivity weatheractivity = (WeatherActivity) getActivity();
+                        weatheractivity.drawerLayout.closeDrawers();
+                        weatheractivity.swiprefresh.setRefreshing(true);
+                        weatheractivity.requestWeather(weatherId);
+                    }
+
+
                 }
             }
         });

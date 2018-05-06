@@ -10,6 +10,14 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swip_refresh"
         android:layout_width="match_parent"
@@ -44,5 +52,13 @@
         </ScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+        <fragment
+            android:id="@+id/fg_choose_area"
+            android:name="www.wsxingjun.com.coolweather.fragment.ChooseAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity = "start"/>
+    </android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>
