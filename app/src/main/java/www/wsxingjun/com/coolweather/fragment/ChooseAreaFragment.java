@@ -1,6 +1,7 @@
 package www.wsxingjun.com.coolweather.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,12 +26,12 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import www.wsxingjun.com.coolweather.Acitivity.WeatherActivity;
 import www.wsxingjun.com.coolweather.R;
 import www.wsxingjun.com.coolweather.db.City;
 import www.wsxingjun.com.coolweather.db.County;
 import www.wsxingjun.com.coolweather.db.Province;
 import www.wsxingjun.com.coolweather.utils.HttpUtil;
-import www.wsxingjun.com.coolweather.utils.Instance;
 import www.wsxingjun.com.coolweather.utils.JsonParseUtil;
 
 /**
@@ -43,7 +44,8 @@ public class ChooseAreaFragment extends Fragment {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTRY = 2;
-    public int currentLevel;
+
+    private int currentLevel;
 
     private ProgressDialog progressDialog;
 
@@ -74,7 +76,7 @@ public class ChooseAreaFragment extends Fragment {
     }
 
     private void initData() {
-        adapter = new ArrayAdapter<String>(getContext(),
+        adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, dataList);
         lv_listView.setAdapter(adapter);
     }
@@ -99,6 +101,13 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCountries();
+                }else if (currentLevel == LEVEL_COUNTRY){
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    Log.d("onActivityCreated","************");
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
