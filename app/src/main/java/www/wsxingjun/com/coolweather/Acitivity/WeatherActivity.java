@@ -1,5 +1,6 @@
 package www.wsxingjun.com.coolweather.Acitivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,7 @@ import okhttp3.Response;
 import www.wsxingjun.com.coolweather.R;
 import www.wsxingjun.com.coolweather.gson.Forecast;
 import www.wsxingjun.com.coolweather.gson.Weather;
+import www.wsxingjun.com.coolweather.service.AutoUpdateService;
 import www.wsxingjun.com.coolweather.utils.HttpUtil;
 import www.wsxingjun.com.coolweather.utils.JsonParseUtil;
 
@@ -190,11 +193,13 @@ public class WeatherActivity extends AppCompatActivity {
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degress = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
+
         tv_title_city.setText(cityName);
         tv_update_time.setText(updateTime);
         tv_degreeText.setText(degress);
         tv_weatherInfo.setText(weatherInfo);
         ll_forecast_layout.removeAllViews();
+
         for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this).inflate(R.layout.item_forecast, ll_forecast_layout, false);
             TextView tv_date = (TextView) view.findViewById(R.id.tv_date);
@@ -223,6 +228,11 @@ public class WeatherActivity extends AppCompatActivity {
         tv_carWash.setText(carWash);
         tv_sport.setText(sport);
         scroll_weather.setVisibility(View.VISIBLE);
+
+        //开启服务器
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
+        Log.d("AutoUpdateService","开启服务器");
 
     }
 
