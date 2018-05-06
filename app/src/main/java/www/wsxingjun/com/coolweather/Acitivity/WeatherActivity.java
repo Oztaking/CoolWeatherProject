@@ -1,16 +1,20 @@
 package www.wsxingjun.com.coolweather.Acitivity;
 
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 
@@ -36,6 +40,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView tv_confort;
     private TextView tv_carWash;
     private TextView tv_sport;
+    private ImageView imge_everyDayImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.layout_weather);
 
 //        initView();
+        imge_everyDayImage = (ImageView) findViewById(R.id.imge_everyDayImage);
+
         scroll_weather = (ScrollView) findViewById(R.id.scroll_weather);
         tv_title_city = (TextView) findViewById(R.id.tv_title_city);
         tv_update_time = (TextView) findViewById(R.id.tv_update_time);
@@ -66,7 +73,16 @@ public class WeatherActivity extends AppCompatActivity {
             scroll_weather.setVisibility(View.INVISIBLE);
             requestWeather(weatherId);
         }
+        String bing_pic = sharedPreferences.getString("bing_pic", null);
+        if (bing_pic != null) {
+            Glide.with(this)
+                    .load(bing_pic)
+                    .into(imge_everyDayImage);
+        } else {
+            loadBingPic();
+        }
     }
+
 
     /**
      * 根据weatherId 请求城市天气信息
@@ -94,7 +110,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.apply();
                             showWeatherInfo(weather);
                         } else {
-                            Toast.makeText(WeatherActivity.this, "获取天气预报信息失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WeatherActivity.this, "获取天气预报信息失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -113,6 +129,8 @@ public class WeatherActivity extends AppCompatActivity {
             }
 
         });
+
+        loadBingPic();
     }
 
     /**
@@ -145,7 +163,7 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         }
-        if (weather.aqi != null){
+        if (weather.aqi != null) {
             tv_aqi.setText(weather.aqi.city.aqi);
             tv_pm25.setText(weather.aqi.city.pm25);
         }
@@ -159,5 +177,36 @@ public class WeatherActivity extends AppCompatActivity {
         tv_sport.setText(sport);
         scroll_weather.setVisibility(View.VISIBLE);
 
+    }
+
+
+    private void loadBingPic() {
+        final String requestBingPic = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequset(requestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.body().string();
+                SharedPreferences.Editor editor
+                        = PreferenceManager
+                          .getDefaultSharedPreferences(WeatherActivity.this)
+                          .edit();
+
+                editor.putString("bing_pic",bingPic);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(WeatherActivity.this)
+                                .load(bingPic)
+                                .into(imge_everyDayImage);
+                    }
+                });
+            }
+        });
     }
 }
