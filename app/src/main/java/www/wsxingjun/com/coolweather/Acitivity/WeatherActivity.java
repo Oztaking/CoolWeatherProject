@@ -207,7 +207,7 @@ public class WeatherActivity extends AppCompatActivity {
             TextView tv_max = (TextView) view.findViewById(R.id.tv_max);
             TextView tv_min = (TextView) view.findViewById(R.id.tv_min);
 
-            tv_date.setText(forecast.data);
+            tv_date.setText(forecast.date);
             tv_info.setText(forecast.more.info);
             tv_max.setText(forecast.temperature.max);
             tv_min.setText(forecast.temperature.min);
