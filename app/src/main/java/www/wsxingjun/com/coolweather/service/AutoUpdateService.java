@@ -45,10 +45,10 @@ public class AutoUpdateService extends Service{
         updateWeather();
         updateBingPic();
         manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        int anHour = 8 * 60 * 60 *1000; //秒数：8小时
-        int second = 5000 ; //秒数：5s
-//        long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
-        long triggerAtTime = SystemClock.elapsedRealtime() + second;
+        int anHour = 8 * 60 * 60 *1000; //秒数：8小时
+//        int second = 5000 ; //秒数：5s
+        long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
+//        long triggerAtTime = SystemClock.elapsedRealtime() + second;
         Intent intent1 = new Intent(this, AutoUpdateService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, intent1, 0);
         manager.cancel(pi);

@@ -29,10 +29,10 @@ import okhttp3.Response;
 import www.wsxingjun.com.coolweather.Acitivity.WeatherActivity;
 import www.wsxingjun.com.coolweather.MainActivity;
 import www.wsxingjun.com.coolweather.R;
+import www.wsxingjun.com.coolweather.adapter.MyAdapter;
 import www.wsxingjun.com.coolweather.db.City;
 import www.wsxingjun.com.coolweather.db.County;
 import www.wsxingjun.com.coolweather.db.Province;
-import www.wsxingjun.com.coolweather.gson.Weather;
 import www.wsxingjun.com.coolweather.utils.HttpUtil;
 import www.wsxingjun.com.coolweather.utils.JsonParseUtil;
 
@@ -57,6 +57,8 @@ public class ChooseAreaFragment extends Fragment {
     private ArrayAdapter<String> adapter;
     private List<String> dataList = new ArrayList<>();
 
+    private List<String> mNewDatalist = new ArrayList<String>();
+
 
     //选中的省份、市、县
     private Province selectedProvince;
@@ -67,6 +69,7 @@ public class ChooseAreaFragment extends Fragment {
     private List<City> cityList;
     private List<County> countyList;
     private List<Province> provinceList;
+    private MyAdapter myAdapter;
 
     @Nullable
     @Override
@@ -78,9 +81,15 @@ public class ChooseAreaFragment extends Fragment {
     }
 
     private void initData() {
-        adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, dataList);
-        lv_listView.setAdapter(adapter);
+//        adapter = new ArrayAdapter<>(getContext(),
+//                android.R.layout.simple_list_item_1, dataList);
+//        lv_listView.setAdapter(adapter);
+
+        myAdapter = new MyAdapter(getContext(), mNewDatalist);
+//        lv_listView.setAdapter(myAdapter);
+        lv_listView.setAdapter(myAdapter);
+        Toast.makeText(getContext(),"设置Adapter之后的adapter数据"+myAdapter.toString(),Toast.LENGTH_SHORT).show();
+
     }
 
     private void initView(View view) {
@@ -147,12 +156,18 @@ public class ChooseAreaFragment extends Fragment {
         Log.d("wsxingjun",provinceList.toString());
         if (provinceList.size() > 0) {
             dataList.clear();
+            mNewDatalist.clear();
+
             for (Province province : provinceList) {
                 dataList.add(province.getProvinceName());
+                mNewDatalist.add(province.getProvinceName());
             }
-            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), mNewDatalist.toString(),Toast.LENGTH_SHORT).show();
+
             //更新listView的数据的显示
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
             lv_listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         } else {
@@ -175,12 +190,16 @@ public class ChooseAreaFragment extends Fragment {
                 .find(City.class);
 
         if (cityList.size() > 0) {
-            dataList.clear();
+//            dataList.clear();
+            mNewDatalist.clear();
             for (City city : cityList) {
                 dataList.add(city.getCityName());
+                mNewDatalist.add(city.getCityName());
             }
-            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
+//            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), mNewDatalist.toString(),Toast.LENGTH_SHORT).show();
+//            adapter.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
             lv_listView.setSelection(0);
             currentLevel = LEVEL_CITY;
         } else {
@@ -204,11 +223,15 @@ public class ChooseAreaFragment extends Fragment {
                 .find(County.class);
         if (countyList.size() > 0) {
             dataList.clear();
+            mNewDatalist.clear();
             for (County county : countyList) {
                 dataList.add(county.getCountyName());
+                mNewDatalist.add(county.getCountyName());
             }
-            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
+//            Toast.makeText(getContext(), dataList.toString(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), mNewDatalist.toString(),Toast.LENGTH_SHORT).show();
+//            adapter.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
             lv_listView.setSelection(0);
             currentLevel = LEVEL_COUNTRY;
         } else {
