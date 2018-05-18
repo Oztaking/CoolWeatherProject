@@ -54,6 +54,8 @@ public class WeatherActivity extends AppCompatActivity {
     private String mWeatherId;
     private Button nav_button;
     public DrawerLayout drawerLayout;
+	
+	//声明-------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
